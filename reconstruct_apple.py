@@ -76,10 +76,10 @@ def apply(input_sino, model_path, save_path, max_apply, offset ,verbose = False)
 
 
 if __name__ == "__main__":
-    file_path = r"D:\Image_Data\Numerical_Phantoms\Apple_CT\data"
+    file_path = r"E:\Apples-CT\projections_noisefree_nrrd"
     out_path = os.path.join(file_path, '..', 'NetworkOutput50')
 
-    model_path = r"C:\Users\cu4\Desktop\tmp\50"
+    model_path = r"E:\Apples-CT\networks\50"
     sparse = False
 
     if sparse == True:
