@@ -34,7 +34,7 @@ def apply(input_sino, model_path, save_path, max_apply, offset ,verbose = False)
 
     restore_status = [checkpoint.restore(latest_model)]
 
-    graph = tf.graph()
+    graph = tf.get_default_graph()
 
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
