@@ -16,6 +16,11 @@ The .nrrd files will be saved in a separate directory. The .nrrd files are the i
 We have uploaded 2 networks, one for 50-view sinograms and one for 25-view sinograms.
 
 # How-To:
+!!! We currently have the problem, that the application gets extremely slow after several slices.
+Also there will very likely be a memory overflow after calling apply() several times (6-8 times for us).
+Therefore in its current state, the script has to be restarted multiple times to reconstruct all the data.
+We hope that we are able to fix this problem by tomorrow. !!! - 31.08.2020
+
 1. Download the trained networks from:
 https://drive.google.com/file/d/1ZwW3AbdqZOAHrJm9gKBDgxIPUEBzZpD5/view?usp=sharing
 
