@@ -18,33 +18,33 @@ def apply(input_sino, model_path, save_path, max_apply, offset ,verbose = False)
     if verbose:
         print('   -loading network')
 
-    # This loads the keras network and the first checkpoint file
-    model = tf.keras.models.load_model(os.path.join(model_path, 'keras_model.h5'),
-                                            custom_objects={'recofunc': architecture.recofunc,
-                                                            'shrinkageact': architecture.shrinkageact,
-                                                            'shrinkageact_dense': architecture.shrinkageact_dense,
-                                                            'shrinkageact64': architecture.shrinkageact64,
-                                                            'shrinkageact_slicing': architecture.slicing,
-                                                            'shrinkageact_padding': architecture.padding,
-                                                             'tf':tf, 'cfg':cfg},
-                                            compile=False)
+        # This loads the keras network and the first checkpoint file
+        model = tf.keras.models.load_model(os.path.join(model_path, 'keras_model.h5'),
+                                                custom_objects={'recofunc': architecture.recofunc,
+                                                                'shrinkageact': architecture.shrinkageact,
+                                                                'shrinkageact_dense': architecture.shrinkageact_dense,
+                                                                'shrinkageact64': architecture.shrinkageact64,
+                                                                'shrinkageact_slicing': architecture.slicing,
+                                                                'shrinkageact_padding': architecture.padding,
+                                                                 'tf':tf, 'cfg':cfg},
+                                                compile=False)
 
-    checkpoint = tf.train.Checkpoint(model=model)
-    latest_model = tf.train.latest_checkpoint(model_path)
+        checkpoint = tf.train.Checkpoint(model=model)
+        latest_model = tf.train.latest_checkpoint(model_path)
 
-    restore_status = [checkpoint.restore(latest_model)]
-    #tf.reset_default_graph()
-    graph = tf.get_default_graph()
+        restore_status = [checkpoint.restore(latest_model)]
 
-    config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True
-    config.gpu_options.per_process_gpu_memory_fraction = 0.7
 
-    config.allow_soft_placement = True  # automatically choose a supported device when the specified one doesn't support an op
-    init_op = tf.group(tf.global_variables_initializer(),
-                       tf.local_variables_initializer())
 
-    with tf.Session(config=config, graph=graph) as sess:
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+        config.gpu_options.per_process_gpu_memory_fraction = 0.7
+
+        config.allow_soft_placement = True  # automatically choose a supported device when the specified one doesn't support an op
+        init_op = tf.group(tf.global_variables_initializer(),
+                           tf.local_variables_initializer())
+
+    with tf.Session(config=config, graph=g) as sess:
         sess.run(init_op)
 
         for element in restore_status:
@@ -76,10 +76,10 @@ def apply(input_sino, model_path, save_path, max_apply, offset ,verbose = False)
 
 
 if __name__ == "__main__":
-    file_path = r"E:\Apples-CT\projections_noisefree_nrrd"
+    file_path = r"D:\Image_Data\Numerical_Phantoms\Apple_CT\data"
     out_path = os.path.join(file_path, '..', 'NetworkOutput50')
 
-    model_path = r"E:\Apples-CT\networks\50"
+    model_path = r"C:\Users\cu4\Desktop\tmp\50"
     sparse = False
 
     if sparse == True:
@@ -106,12 +106,14 @@ if __name__ == "__main__":
             save_path = os.path.join(out_path, filename.replace('.nrrd', ''))
 
 
-            # Rebuild network every max_apply slices. 
-            # We currently have the problem, that the application gets extremely slow after several slices.
-            # Also there will very likely be a memory overflow after calling apply() several times (6-8 times for us).
-            max_apply = 1000
+            # Rebuild network every max_apply slices. The application gets extremely slow after several slices.
+            max_apply = 100
             j = 0
             while max_apply * j < len(input_sino):
                 offset = max_apply * j
-                apply(input_sino, model_path = model_path, save_path = save_path, max_apply = max_apply, offset = offset, verbose = True)
+                tf.reset_default_graph()
+                g = tf.Graph()
+                tf.keras.backend.clear_session()
+                with g.as_default():
+                    apply(input_sino, model_path = model_path, save_path = save_path, max_apply = max_apply, offset = offset, verbose = True)
                 j += 1
