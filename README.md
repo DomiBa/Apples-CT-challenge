@@ -1,10 +1,10 @@
 # Apples-CT-challenge
-Submission for the Apples-CT challenge
+Submission for the Apples-CT challenge. The used network is based on the iCT-Net by Li et. al. (https://ieeexplore.ieee.org/abstract/document/8688568).
 
 # Requirements:
 - NVIDIA GPU with sufficient GPU memory (we used a Titan XP with 12GB memory, 8GB will most likely not suffice)
 - Python 3.5
-- Tensorflow 1.12
+- Tensorflow-gpu 1.12
 - CUDA v9.0
 
 # Description:
