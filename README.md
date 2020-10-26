@@ -25,7 +25,7 @@ https://drive.google.com/file/d/1ZwW3AbdqZOAHrJm9gKBDgxIPUEBzZpD5/view?usp=shari
 
 3. Reconstruct the data with reconstruct_apple.py:
 - Set "file_path" in line 79 to the directory containing the .nrrd sinograms (out_dir from convert_apple.py)
-- Set "model_path" to in line 82 to the 50-view or 25-view model folder
+- Set "model_path" in line 82 to the 50-view or 25-view model folder
 - Set "sparse" in line 83 to "False" for 50 views and "True" for 25 views
 
 If you have any questions feel free to contact us via Email (Dominik.Bauer@medma.uni-heidelberg.de) or via the CT Codesprint Slack channel (Dominik Bauer).
